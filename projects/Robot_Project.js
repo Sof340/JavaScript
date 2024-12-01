@@ -30,7 +30,7 @@ function buildGraph(edges) {
 
 
 const roadGraph = buildGraph(roads);
-console.table(roadGraph);
+//console.table(roadGraph);
 
 
 class VillageState {
@@ -135,6 +135,31 @@ function goalOrientedRobot({place, parcels}, route) {
   return {direction: route[0], memory: route.slice(1)};
 }
 
+// Exercice 02 : Robot Effeciency.
+
+function impgoalOrientedRobot({place, parcels}, route) {
+  let shortestRoute = [];
+  if (route.length == 0) {
+    let routes = [];
+    for (let i = 0; i < parcels.length; i++){
+      let parcel = parcels[i];
+      if (parcel.place != place) {
+        route = findRoute(roadGraph, place, parcel.place);
+      } else {
+        route = findRoute(roadGraph, place, parcel.address);
+      }
+      routes[i] = route;
+    }
+    shortestRoute = routes.reduce((smallest, current) => {
+      return current.length < smallest.length ? current : smallest;
+    });
+  } else {
+    shortestRoute = route;
+  }
+  
+  return {direction: shortestRoute[0], memory: shortestRoute.slice(1)};
+}
+
 // Exercice 01 : Measuring a robot.
 
 function compareRobots(robot1, memory1, robot2, memory2) {
@@ -143,7 +168,6 @@ function compareRobots(robot1, memory1, robot2, memory2) {
   function runRobot01(state, robot, memory) {
     for (let turn = 0;; turn++) {
       if (state.parcels.length == 0) {
-        console.log(`Done in ${turn} turns`);
         return turn;
       }
       let action = robot(state, memory);
@@ -152,21 +176,17 @@ function compareRobots(robot1, memory1, robot2, memory2) {
       
     }
   }
-  
+  let total1 = 0, total2 = 0;
+
   for (let i = 0; i < 100; i++) {
     let inputState = VillageState.random();
     
-    let stat1 = runRobot01(inputState, robot1, memory1);
-    let stat2 = runRobot01(inputState, robot2, memory2);
-    if (i == 0) {
-      result["robot1"] = [stat1];
-      result["robot2"] = [stat2];
-    } else {
-      result["robot1"].push(stat1);
-      result["robot2"].push(stat2);
-    }
+    total1 += runRobot01(inputState, robot1, memory1);
+    total2 += runRobot01(inputState, robot2, memory2);
   }
-  console.table(result);
+  console.log(`Robot 1 needed ${total1 / 100} steps per task`)
+  console.log(`Robot 2 needed ${total2 / 100} steps per task`)
 }
 
-compareRobots(routeRobot, [], goalOrientedRobot, []);
+
+compareRobots(goalOrientedRobot, [], impgoalOrientedRobot, []);
