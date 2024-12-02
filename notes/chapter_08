@@ -1,0 +1,24 @@
+In this chapter we will delve into what is debugging, how it is done and how to make it meaningfull and easy.
+
+NOTES : ¤ STRICT : Putting "use strict" at the top of your code helps avoid a lot of incoviences and rarely hurts.
+
+	¤ TYPES : It is helpfull and necessary to write the types of the arguments given to a function and the type that function returns that way less confusion occurs.
+
+Exemple: 	// (graph: Object, from: string, to: string) => string[]
+		function findRoute(graph, from, to) {
+		// ...
+		}
+TypeScript is a very usefull way to do so.
+
+	¤ TESTING : Automated testing is the process of writing a program that tests another program.
+Testrunners are softwares that help you build test units since building those can be somewhat hard.
+
+	¤ ERROR HANDLING : Error handling is to predict misuse cases and make it so these cases dont impact or interrupt the unfolding of our program.
+
+	¤ EXCEPTION : raising an execption is used to point ot possible bugs in the code or it use, an exception interrupts the execution and return it message indicating what is wrong directly.
+	-The throw keyword is used to raise an exception. Catching one is done by wrapping a piece of code in a try block, followed by the keyword catch.
+
+	¤ EXCEPTION SIDE EFFECT : try statements have another feature: they may be followed by a finally block either instead of or in addition to a catch block. A finally block says “no matter what happens, run this code after trying to run the code in the try block.”
+
+	¤ ASSERTIONS : Assertions are checks inside a program that verify that something is the way it is supposed to be. They are used not to handle situations that can come up in normal operation but to find programmer mistakes.
+
